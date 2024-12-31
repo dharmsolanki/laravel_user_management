@@ -132,7 +132,7 @@
 <body>
     <div class="container">
         
-        <form action="{{route('login-get')}}" method="post">
+        <form action="{{route('login')}}" method="post">
             @csrf
 
             <div class="imgcontainer">

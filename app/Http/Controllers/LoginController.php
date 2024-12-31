@@ -21,7 +21,7 @@ class LoginController extends Controller
             $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->psw, $user->password)) {
                 Auth::login($user);
-                return view('dashboard');
+                return redirect()->route('dashboard');
             }
     
             return back()->withErrors(['email' => 'Invalid credentials.']);
@@ -34,6 +34,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login-get');
+        return redirect()->route('login');
     }
 }
