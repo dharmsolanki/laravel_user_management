@@ -7,9 +7,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::any('/login', [LoginController::class, 'login'])->name('login-get');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::middleware(['guest'])->group(function () {
+    Route::any('/login', [LoginController::class, 'login'])->name('login');
+});
 
-Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+});
