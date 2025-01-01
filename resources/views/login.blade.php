@@ -136,7 +136,7 @@
             @csrf
 
             <div class="imgcontainer">
-                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                <img src="{{ asset('images/user.jpg') }}" alt="Avatar" class="avatar">
             </div>
             @if($errors->any())
                 <div>
