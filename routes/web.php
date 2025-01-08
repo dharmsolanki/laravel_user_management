@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,8 +13,9 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
     Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::any('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/add-user', [DashboardController::class, 'createUser'])->name('dashboard.add-user');
+    Route::post('/dashboard/add-user', [DashboardController::class, 'createUser'])->name('user.register');
+
 });
