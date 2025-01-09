@@ -17,5 +17,4 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/add-user', [DashboardController::class, 'createUser'])->name('dashboard.add-user');
     Route::post('/dashboard/add-user', [DashboardController::class, 'createUser'])->name('user.register');
-
 });
