@@ -61,19 +61,12 @@ class UsersController extends Controller
 
         if ($request->isMethod('post')) {
             // Validate incoming data
-            $request->validate([
+            $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id, // Ensure email is unique except for the current user
             ]);
 
-            // Update user data
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            if ($request->has('password') && $request->password) {
-                $user->password = bcrypt($request->password); // Encrypt password if provided
-            }
-
-            $user->save(); // Save changes to the database
+            $user->update($validatedData);
 
             return redirect()->route('user.list')->with('success', 'User updated successfully!');
         }

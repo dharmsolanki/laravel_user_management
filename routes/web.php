@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/add-user', [UsersController::class, 'createUser'])->name('user.register');
     Route::get('/dashboard/user-list', [UsersController::class, 'userList'])->name('user.list');
     Route::any('/dashboard/user-edit/{id}', [UsersController::class, 'edit'])->name('user.edit');
+    Route::get('/dashboard/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/dashboard/roles/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('/dashboard/roles/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::get('dashboard/roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('dashboard/roles/{id}/edit', [RoleController::class, 'edit']);
 });
