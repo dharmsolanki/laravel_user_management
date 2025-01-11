@@ -9,6 +9,9 @@ class Role extends Model
     const ACTIVE_ROLE = 1;
     const INACTIVE_ROLE = 0;
 
+    const ACTIVE_USER = 1;
+    const INACTIVE_USER = 0;
+
     const ROLE_ADMIN = 1;
     const ROLE_USER = 2;
 
