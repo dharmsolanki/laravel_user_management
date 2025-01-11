@@ -16,6 +16,8 @@
                 </tr>
             </thead>
             <tbody>
+                @if (count($roles) > 0)
+                    
                 @foreach($roles as $id => $role)
                     <tr>
                         <td>{{ $id + 1 }}</td>
@@ -26,6 +28,11 @@
                         </td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="4" class="text-center">No Records Found</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
