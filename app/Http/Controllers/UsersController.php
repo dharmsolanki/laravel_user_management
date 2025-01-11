@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User; // Ensure you import the User model
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class UsersController extends Controller
 {
     public function index()
     {
