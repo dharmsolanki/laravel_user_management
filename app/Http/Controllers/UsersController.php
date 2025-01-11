@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User; // Ensure you import the User model
 use Illuminate\Support\Facades\DB;
@@ -11,10 +12,14 @@ class UsersController extends Controller
     public function index()
     {
         // Count the total number of users
-        $userCount = User::count();
+        $userCount = User::where('users.id', '<>', 1)->count();
+        $roleCount = Role::count();
 
         // Pass the count to the view
-        return view('dashboard', compact('userCount'));
+        return view('dashboard', [
+            'userCount' => $userCount,
+            'roleCount' => $roleCount
+        ]);
     }
 
     public function createUser(Request $request)
@@ -43,7 +48,10 @@ class UsersController extends Controller
 
     public function userList()
     {
-        $users = User::where('id', '<>', 1)->get();
+        $users = User::where('users.id', '<>', 1)
+            ->join('roles', 'users.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.name as role_name')  // Get all columns from users and the 'name' column from roles
+            ->get();
 
         return view('user-list', [
             'users' => $users,
