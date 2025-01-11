@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,8 +21,13 @@ class LoginController extends Controller
 
             $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->psw, $user->password)) {
-                Auth::login($user);
-                return redirect()->route('dashboard')->with('user', Auth::user());
+                if($user->status == Role::ACTIVE_USER){
+                    Auth::login($user);
+                    return redirect()->route('dashboard')->with('user', Auth::user());
+                }
+                else{
+                    return back()->withErrors(['email' => 'Your account is inactive. Please contact support.']);
+                }
             }
     
             return back()->withErrors(['email' => 'Invalid credentials.']);

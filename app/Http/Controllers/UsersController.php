@@ -16,7 +16,7 @@ class UsersController extends Controller
         $roleCount = Role::count();
 
         // Pass the count to the view
-        return view('dashboard', [
+        return view('users.dashboard', [
             'userCount' => $userCount,
             'roleCount' => $roleCount
         ]);
@@ -43,7 +43,7 @@ class UsersController extends Controller
 
             return redirect()->back();
         }
-        return view('user-create');
+        return view('users.user-create');
     }
 
     public function userList()
@@ -53,7 +53,7 @@ class UsersController extends Controller
             ->select('users.*', 'roles.name as role_name')  // Get all columns from users and the 'name' column from roles
             ->get();
 
-        return view('user-list', [
+        return view('users.user-list', [
             'users' => $users,
         ]);
     }
@@ -80,7 +80,7 @@ class UsersController extends Controller
         }
 
         // Render the view with the user data
-        return view('user-update', [
+        return view('users.user-update', [
             'user' => $user,
         ]);
     }
