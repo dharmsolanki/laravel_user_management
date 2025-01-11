@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'role_id' => Role::ROLE_ADMIN,
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('Drc@1234'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@gmail.com'], // The condition to find the user
+            [
+                'role_id' => Role::ROLE_ADMIN,
+                'status' => Role::ACTIVE_USER,
+                'name' => 'Admin',
+                'password' => Hash::make('Drc@1234'),
+            ]
+        );
     }
 }
