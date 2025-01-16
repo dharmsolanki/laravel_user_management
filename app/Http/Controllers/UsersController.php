@@ -51,7 +51,7 @@ class UsersController extends Controller
         $users = User::where('users.id', '<>', 1)
             ->join('roles', 'users.role_id', '=', 'roles.id')
             ->select('users.*', 'roles.name as role_name')  // Get all columns from users and the 'name' column from roles
-            ->get();
+            ->withTrashed()->get();
 
         return view('users.user-list', [
             'users' => $users,
@@ -83,5 +83,51 @@ class UsersController extends Controller
         return view('users.user-update', [
             'user' => $user,
         ]);
+    }
+
+    public function delete($id)
+    {
+        $user = User::findOrFail($id);
+
+        if(!$user){
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        $user->delete();
+
+         // Set a success message
+        session()->flash('alert-class', 'alert-success');
+        session()->flash('alert-message', 'User deleted successfully!');
+
+        return redirect()->route('user.list')->with('success', 'User deleted successfully!');
+    }
+    public function deleteUserPermanently($id)
+    {
+        $user = User::withTrashed()->find($id);
+
+        if(!$user){
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        if ($user) {
+            $user->forceDelete();
+            return redirect()->route('user.list')->with('success', 'User permanently deleted!');
+        } else {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+    }
+
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        // Restore the record
+        $user->restore();
+
+        // Set a success message
+        session()->flash('alert-class', 'alert-success');
+        session()->flash('alert-message', 'User restored successfully!');
+
+        return redirect()->route('user.list')->with('success', 'User Restored successfully!');
     }
 }
