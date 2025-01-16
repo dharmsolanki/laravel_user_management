@@ -4,7 +4,12 @@
 <main class="main-content">
     <div class="container mt-4">
         <h2>Role Listing</h2>
-
+        @if (session('alert-message'))
+        <div class="alert {{ session('alert-class') }} alert-dismissible fade show" role="alert">
+            {{ session('alert-message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
         <!-- Table -->
         <table class="table table-bordered">
             <thead>
