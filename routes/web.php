@@ -25,4 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::get('dashboard/roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
     Route::put('dashboard/roles/{id}/edit', [RoleController::class, 'edit']);
+    Route::get('dashboard/users/{id}/delete', [UsersController::class, 'delete'])->name('user.delete');
+    Route::get('dashboard/users/{id}/delete-permanent', [UsersController::class, 'deleteUserPermanently'])->name('user.delete-permanent');
+    Route::get('dashboard/users/{id}/restore', [UsersController::class, 'restore'])->name('user.restore');
 });

@@ -37,7 +37,24 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role_name }}</td>
                             <td>
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                
+                                <a href="{{ route('user.delete', $user->id) }}" class="btn btn-danger btn-sm" title="Soft Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                
+                                <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})" title="Permanent Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                
+                                @if ($user && $user->trashed())
+                                    <a href="{{ route('user.restore', $user->id) }}" class="btn btn-primary btn-sm" title="Restore">
+                                        <i class="fas fa-undo"></i>
+                                    </a>
+                                @endif
+                                
                             </td>
                         </tr>
                     @endforeach
@@ -50,4 +67,24 @@
         </table>
     </div>
 </main>
+@endsection
+@section('customJs')
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete route
+                window.location.href = '{{ route("user.delete-permanent", ":id") }}'.replace(':id', userId);
+            }
+        });
+    }
+</script>
 @endsection
